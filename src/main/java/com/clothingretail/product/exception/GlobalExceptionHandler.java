@@ -72,6 +72,71 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(SizeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSizeNotFound(
+            SizeNotFoundException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                "SIZE_NOT_FOUND",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(ColorNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleColorNotFound(
+            ColorNotFoundException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                "COLOR_NOT_FOUND",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(DuplicateSkuException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateSku(
+            DuplicateSkuException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.CONFLICT,
+                "DUPLICATE_SKU",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(DuplicateProductVariantException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateVariant(
+            DuplicateProductVariantException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.CONFLICT,
+                "DUPLICATE_PRODUCT_VARIANT",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(ProductVariantNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProductVariantNotFound(
+            ProductVariantNotFoundException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                "PRODUCT_VARIANT_NOT_FOUND",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
     private ResponseEntity<ErrorResponse> buildErrorResponse(
             HttpStatus status,
             String error,
