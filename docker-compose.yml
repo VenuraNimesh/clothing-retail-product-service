@@ -21,5 +21,17 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7
+    container_name: clothing-retail-redis
+    restart: unless-stopped
+
+    ports:
+      - "6379:6379"
+
+    volumes:
+      - product_redis_data:/data
+
 volumes:
   product_postgres_data:
+  product_redis_data:

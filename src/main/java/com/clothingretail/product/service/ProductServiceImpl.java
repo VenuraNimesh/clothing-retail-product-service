@@ -16,6 +16,8 @@ import com.clothingretail.product.repository.BrandRepository;
 import com.clothingretail.product.repository.CategoryRepository;
 import com.clothingretail.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -50,6 +52,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(
+            value = "products",
+            key = "#productId"
+    )
     public ProductDetailResponse getProductById(UUID productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() ->
@@ -68,6 +74,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
+    @CacheEvict(
+            value = "products",
+            key = "#productId"
+    )
     public ProductResponse updateProduct(UUID productId, UpdateProductRequest request) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() ->
@@ -96,6 +106,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
+    @CacheEvict(
+            value = "products",
+            key = "#productId"
+    )
     public void updateProductStatus(UUID productId, UpdateProductStatusRequest request) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() ->
