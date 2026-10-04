@@ -1,4 +1,26 @@
 services:
+  app:
+    image: clothing-retail-product-service:latest
+    container_name: clothing-retail-product-service
+    restart: unless-stopped
+
+    ports:
+      - "9081:9081"
+
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/clothing_retail_product
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
   postgres:
     image: postgres:17
     container_name: clothing-retail-postgres
@@ -31,6 +53,13 @@ services:
 
     volumes:
       - product_redis_data:/data
+
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
 
 volumes:
   product_postgres_data:
