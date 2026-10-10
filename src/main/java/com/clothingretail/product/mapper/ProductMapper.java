@@ -4,6 +4,8 @@ import com.clothingretail.product.entity.Brand;
 import com.clothingretail.product.entity.Category;
 import com.clothingretail.product.entity.Product;
 import com.clothingretail.product.model.request.CreateProductRequest;
+import com.clothingretail.product.model.request.UpdateProductRequest;
+import com.clothingretail.product.model.response.ProductDetailResponse;
 import com.clothingretail.product.model.response.ProductResponse;
 import org.springframework.stereotype.Component;
 
@@ -34,5 +36,40 @@ public class ProductMapper {
                 product.getCreatedAt(),
                 product.getUpdatedAt()
         );
+    }
+
+    public ProductDetailResponse toDetailResponse(Product product) {
+
+        return new ProductDetailResponse(
+                product.getId(),
+
+                new ProductDetailResponse.BrandResponse(
+                        product.getBrand().getId(),
+                        product.getBrand().getName()
+                ),
+
+                new ProductDetailResponse.CategoryResponse(
+                        product.getCategory().getId(),
+                        product.getCategory().getName()
+                ),
+
+                product.getName(),
+                product.getDescription(),
+                product.getStatus(),
+                product.getCreatedAt(),
+                product.getUpdatedAt()
+        );
+    }
+
+    public void updateEntity(
+            Product product,
+            UpdateProductRequest request,
+            Brand brand,
+            Category category
+    ) {
+        product.setBrand(brand);
+        product.setCategory(category);
+        product.setName(request.name());
+        product.setDescription(request.description());
     }
 }

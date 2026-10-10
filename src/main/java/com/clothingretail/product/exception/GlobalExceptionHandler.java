@@ -37,6 +37,19 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProductNotFound(
+            ProductNotFoundException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                "PRODUCT_NOT_FOUND",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(
             MethodArgumentNotValidException exception,
@@ -55,6 +68,71 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST,
                 "VALIDATION_ERROR",
                 message,
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(SizeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSizeNotFound(
+            SizeNotFoundException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                "SIZE_NOT_FOUND",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(ColorNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleColorNotFound(
+            ColorNotFoundException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                "COLOR_NOT_FOUND",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(DuplicateSkuException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateSku(
+            DuplicateSkuException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.CONFLICT,
+                "DUPLICATE_SKU",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(DuplicateProductVariantException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateVariant(
+            DuplicateProductVariantException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.CONFLICT,
+                "DUPLICATE_PRODUCT_VARIANT",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(ProductVariantNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProductVariantNotFound(
+            ProductVariantNotFoundException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                "PRODUCT_VARIANT_NOT_FOUND",
+                exception.getMessage(),
                 request.getRequestURI()
         );
     }
